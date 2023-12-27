@@ -1,0 +1,105 @@
+## COURSE_LINK:- https://youtu.be/xPT8mXa-sJg?si=fhsZwERABBz-i5jQ
+
+## Docker solved multiple environment problem.
+
+e.g.
+machine 1) 
+    win 11
+    intel
+    node v16
+    mongodb 5
+    redis 6
+    and node js server
+
+machine 2)
+    MacOS
+    node 20
+    mongodb 7
+    redis 7
+    and clones machine one node server
+
+
+But because of different env like OS, node version and other tools version, that's why code might not run 
+
+So to replicate different env we use docker
+
+## Run docker :-
+docker run -it ubuntu ---> -it means interactive mode
+
+It checks if ubuntu image is present or not if not then installs it
+And if present then it reuses it and create new container
+
+## images and containers
+1. images:- Images behave like operating system in docker
+2. containers:- Containers runs images and containers are isolated form other containers
+
+
+## docker commands
+1. docker container ls :- list containers which are running
+2. docker container ls -a :- list all containers 
+3. docker start <container_name> :- start docker container with container name
+4. docker stop <container_name> :- stop docker container with container name
+5. docker exec <container_name> ls :- list result of that container
+6. docker exec -it <container_name> bash :- connect to that container
+7. docker images :- list of all images on local machine
+
+
+## port mapping
+To run image PORT with locally, we have to expose that image PORT
+
+command:- docker run -it -p <LOCAL_PORT>:<IMAGE_PORT> <container_name> 
+
+## env variables
+Pass env variables in docker
+command:- docker run -it -p <LOCAL_PORT>:<IMAGE_PORT> -e key=value -e key=value <container_name> 
+
+## create image of your local dockerfile
+docker build -t <IMAGE_NAME> . :- . means Docker file is path 
+
+
+## CACHING LAYER
+docker cache the existing configuration, It increase speed of image creation
+write common command on top 
+then changeable code 
+
+## PUBLISHING DOCKER IMAGE :-  our local image on docker hub
+step 1. Login to docker.hub.com
+step 2. Create new repository with your image name ( which you are going to publish image)
+step 3. Create  docker image with name of your created docker repository name
+step 4. Login to cli locally
+step 5. Run command :- docker push <DOCKER_REPOSITORY_NAME> ---> it will push image on docker.hub.com
+
+
+## DOCKER COMPOSE
+use to run multiple i images simultaneously 
+with docker compose we can create, set up multiple containers and destroy them 
+
+1. Create docker-compose.yml file
+
+write configuration of images
+    e.g 
+        version: '3.8'
+
+        services: 
+          postgres:
+            image: postgres # image from hub.docker.com
+            ports: 
+              - '5432:5432'
+            environment:
+              POSTGRES_USER: <POSTGRES_USER_NAME>
+              POSTGRES_DB: <DB_NAME>
+              POSTGRES_PASSWORD: <USER_PASSWORD>
+
+          redis:
+            image: redis
+            ports:
+              - '6379:6379'
+
+run command:- 
+    docker compose up ---> it will run UP all configurations from docker-compose.yml file
+    docker compose down --> it will down docker-compose stack
+    docker compose up -d ---> it will rup docker-compose in background
+
+
+## set custom name to container
+docker run -it --name <CUSTOM_CONTAINER_NAME> <IMAGE_NAME>

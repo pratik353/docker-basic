@@ -1,0 +1,71 @@
+## COURSE_LINK:- https://youtu.be/xPT8mXa-sJg?si=ay9u4zPO2U0s4ce7
+
+## Docker Networking
+
+1. bridge - It is link layer device which connect internet with with your container
+command: docker network inspect bridge ---> kist of all containers with bridge configuration
+
+2. host - It will connect container directly with your machine not viw bridge
+command: docker run -it --network=host busybox
+
+2. none - It will not connect container with network
+command: docker run -it --network=none busybox
+
+--> difference
+# By default docker container is bridge on bridge network
+1. When ur using host docker network ( --network=host) then you doesn't have to expose host
+it will direct export ur PORTs because it connect to your system network
+
+
+## Create own network in docker
+command: docker network create -d <DEFAULT_NETWORK_NAME e.g bridge/host> <CUSTOM_NETWORK_NAME>
+
+
+
+## Volume mounting ( containerization )
+When we destroy the container, with that container memory also get lost ( e.g files )
+
+It used to connect our local folder to container folder, So that's why even if we destroy container then local data not lost. We can start container with that local folder also.
+
+command : docker run -it -v <LOCAL_DIR_PATH>:<CONTAINER_DIR_PATH( where we want to connect local dir )> <IMAGE_NAME>
+
+
+## Command to run volume container
+docker run -d --name=<CONTAINER_NAME> --mount source=<VOLUME_NAME>,target=<LOCAL_DIR_NAME> <IMAGE_NAME>
+
+## Caching layering
+make correct ordering of layers in Dockerfile
+
+
+
+## DOCKER MULTI STAGE build
+
+Creating multiple stages of Dockerfile layers
+
+FROM ubuntu  as build # stage one
+
+RUN apt-get update 
+
+RUN apt-get install -y curl
+RUN curl -sL https://deb.nodesource.com/setup_18.x | bash -
+RUN apt-get upgrade -y
+RUN apt-get install -y nodejs
+RUN apt-get install typescript
+
+WORKDIR /app
+
+COPY package.json package.json
+COPY package-lock.json package-lock.json
+
+RUN npm install
+RUN tsc -p . # build
+
+FROM node as runner # 2nd stage
+
+WORKDIR /app
+
+# copy --from=<BUILD_NAME> <DIR_PATH> <YOUR_DIR_PATH>
+copy --from=build app/ . # it will copy all files from app build stage into runner stage
+
+# ENTRYPOINT = whenever anyone runs this image we need to run node js with main.js file
+ENTRYPOINT [ "node", "index.js"]
