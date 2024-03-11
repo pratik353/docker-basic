@@ -3,7 +3,7 @@
 ## Docker solved multiple environment problem.
 
 e.g.
-machine 1) 
+machine 1: 
     win 11
     intel
     node v16
@@ -11,7 +11,7 @@ machine 1)
     redis 6
     and node js server
 
-machine 2)
+machine 2:
     MacOS
     node 20
     mongodb 7
@@ -24,7 +24,7 @@ But because of different env like OS, node version and other tools version, that
 So to replicate different env we use docker
 
 ## Run docker :-
-docker run -it ubuntu ---> -it means interactive mode
+docker run -it ubuntu ---> -it means interactive mode  // install image locally from docker hub
 
 It checks if ubuntu image is present or not if not then installs it
 And if present then it reuses it and create new container
@@ -35,13 +35,15 @@ And if present then it reuses it and create new container
 
 
 ## docker commands
-1. docker container ls :- list containers which are running
-2. docker container ls -a :- list all containers 
+1. docker container ls OR docker ps :- list containers which are running
+2. docker container ls -a OR docker ps -a :- list all containers 
 3. docker start <container_name> :- start docker container with container name
 4. docker stop <container_name> :- stop docker container with container name
 5. docker exec <container_name> ls :- list result of that container
 6. docker exec -it <container_name> bash :- connect to that container
-7. docker images :- list of all images on local machine
+7. docker images ls:- list of all images on local machine
+8. docker pull <IMAGE_NAME> :- pull image from docker hub
+9. 
 
 
 ## port mapping
@@ -54,7 +56,7 @@ Pass env variables in docker
 command:- docker run -it -p <LOCAL_PORT>:<IMAGE_PORT> -e key=value -e key=value <container_name> 
 
 ## create image of your local dockerfile
-docker build -t <IMAGE_NAME> . :- . means Docker file is path 
+docker build -t <IMAGE_NAME> . ---> . means Docker file is path 
 
 
 ## CACHING LAYER
@@ -71,7 +73,7 @@ step 5. Run command :- docker push <DOCKER_REPOSITORY_NAME> ---> it will push im
 
 
 ## DOCKER COMPOSE
-use to run multiple i images simultaneously 
+use to run multiple docker images simultaneously 
 with docker compose we can create, set up multiple containers and destroy them 
 
 1. Create docker-compose.yml file
@@ -94,6 +96,8 @@ write configuration of images
             image: redis
             ports:
               - '6379:6379'
+
+docker-compose -f docker-compose.yaml up --> to run particular compose file
 
 run command:- 
     docker compose up ---> it will run UP all configurations from docker-compose.yml file

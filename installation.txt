@@ -1,0 +1,2 @@
+download docker desktop application
+enable hyper-v in settings

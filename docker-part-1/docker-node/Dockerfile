@@ -35,3 +35,5 @@ RUN npm install
 
 # ENTRYPOINT = whenever anyonr runs this image we need to run node js with main.js file
 ENTRYPOINT [ "node", "index.js"]
+
+# CMD <COMMAND_NAME> ----> used to run commnad 
