@@ -55,6 +55,9 @@ command:- docker run -it -p <LOCAL_PORT>:<IMAGE_PORT> <container_name>
 Pass env variables in docker
 command:- docker run -it -p <LOCAL_PORT>:<IMAGE_PORT> -e key=value -e key=value <container_name> 
 
+## Use local .env file while running docker image
+docker run --env-file <local_env_file_path> <image_name>
+
 ## create image of your local dockerfile
 docker build -t <IMAGE_NAME> . ---> . means Docker file is path 
 
